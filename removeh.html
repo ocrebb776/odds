@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" media="screen and (min-width:1081px)" href="style.css">
+<link rel="stylesheet" type="text/css" media="screen and (max-width:1080px)" href="mobile.css">
+<script>
+			let txt = ""
+	let y = 0
+	let e = 0
+				fetch('list.json').then(results => results.json()).then(data => {
+		dataa = Object.assign({}, data);
+		// loop for how many in data
+		for (x in dataa) {
+			// create boxes
+			txt += '<th><div class="horse"> number = '+x+'  <br>name  <br>"'+data[x].name+'"<br> odds  <br>'+data[x].num+'/1</div></th>';
+			y += 1
+			e += 1
+								if (y == 3){
+						txt +="<br></tr><tr>"
+						y = 0
+					}
+		}
+
+		 //display boxes
+		document.getElementById("demo").innerHTML = '<table><tr>'+txt+'</tr></table>';
+
+
+	});
+</script>
+<p id="demo"></p>
+<form  name="form" method="post" action="removeh.php" >
+ <h2>REMOVE HORSE</h2><label>number:</label>
+<input type="number" name="number"><br><br><b><h3 style="display:inline;"></h3></b><br><br>
+  <input type="submit" value="remove" /><span style="font-colour:red;">THIS CAN NOT BE UN DONE!!/span>
+</form>

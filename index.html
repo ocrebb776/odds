@@ -1,0 +1,95 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" media="screen and (min-width:1081px)" href="style.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:1080px)" href="mobile.css" />
+    <title>odds homepage</title>
+    <script>
+        let txt = "";
+        let rownum = 0;
+        let rowlung = Math.floor(window.innerWidth / 190);
+        fetch("list.json")
+            .then((results) => results.json())
+            .then((data) => {
+                dataa = Object.assign({}, data);
+                // loop for how many in data
+                for (x in dataa) {
+                    // create boxes
+                    txt += '<th><div class="horse"> name  <br>"' + data[x].name + '"<br> odds  <br>' + data[x].num + "/1</div></th>";
+                    rownum += 1;
+                    if (rownum == rowlung) {
+                        txt += "</tr><tr>";
+                        rownum = 0;
+                    }
+                } //display boxes
+                document.getElementById("demo").innerHTML = "<table><tr>" + txt + "</tr></table>";
+            });
+        let txt2 = "";
+        fetch("output.json")
+            .then((results) => results.json())
+            .then((data) => {
+                dataa = Object.assign({}, data);
+                for (x in dataa) {
+                    txt2 += "<div class='name'>" + dataa[x].user + "</div><span style='font-size:19px'>";
+                    for (yer in dataa[x].horse) {
+                        txt2 += dataa[x].horse[yer].name + " ods:" + dataa[x].horse[yer].num + "/1<br><br>";
+                    }
+                }
+                document.getElementById("deemo").innerHTML = txt2;
+                console.log(dataa);
+            });
+    </script>
+    <body>
+		 <div class="side">
+                <br />
+                <button onclick="location.reload()">refresh</button><br />
+                <br />
+                <div class="dropdown">
+                    <button class="dropbtn">sort</button>
+                    <div class="dropdown-content">
+                        <a href="final.php">fair</a>
+                        <a href="random.html">random</a>
+                        <a href="#">[none]</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <br />
+                    <button class="dropbtn">edit records</button>
+                    <div class="dropdown-content">
+                        <a href="changeh.html">change odds</a>
+                        <a href="removeh.html">delete horse</a>
+                        <a href="removep.html">delete player</a>
+                    </div>
+                </div>
+                <br />
+            </div>
+        <iframe name="votar" style="display: none;"></iframe>
+
+        <form name="form" method="post" action="action.php">
+            <h2>Add Horse To System</h2>
+            <label>Name:</label>
+            <input type="text" name="name" />
+            <br />
+            <br />
+            <label>odds:</label>
+            <input type="number" name="num" max="100" min="1" /><b><h3 style="display: inline;">/1</h3></b><br />
+            <br />
+            <input type="submit" value="add contestant" />
+        </form>
+        <iframe name="votara" style="display: none;"></iframe>
+        <form name="form" method="post" action="addplayer.php">
+            <h2>Add Player</h2>
+            <label>Name:</label> <input type="text" name="name" /><br />
+            <br />
+            <input type="submit" value="add player" />
+        </form>
+        <div class="body">
+           
+            <div class="name">horses</div>
+            <p id="demo">error loading horses</p>
+            <br />
+            odds may change
+            <p id="deemo">sort</p>
+            made in its entirety by oliver crebbin
+        </div>
+    </body>
+</html>
